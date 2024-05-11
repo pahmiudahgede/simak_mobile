@@ -1,4 +1,4 @@
-# simak
+# Sistem Manajemen Kos (SIMAK) Mobile Version
 
 A new Flutter project.
 
