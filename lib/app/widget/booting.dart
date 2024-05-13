@@ -11,7 +11,10 @@ class BootScreen extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Color.fromARGB(255, 236, 16, 196),
         body: Center(
-          child: Text('loading ...'),
+          child: Text(
+            'loading ...',
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
           // child: Container(
           //   width: Get.width * 0.5,
           //   height: Get.width * 0.5,

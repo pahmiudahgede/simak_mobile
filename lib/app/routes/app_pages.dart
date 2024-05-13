@@ -1,9 +1,19 @@
 import 'package:get/get.dart';
 
+import '../modules/bottombar/bindings/bottombar_binding.dart';
+import '../modules/bottombar/views/bottombar_view.dart';
+import '../modules/datax/bindings/datax_binding.dart';
+import '../modules/datax/views/datax_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/operasi/bindings/operasi_binding.dart';
+import '../modules/operasi/views/operasi_view.dart';
+import '../modules/payment/bindings/payment_binding.dart';
+import '../modules/payment/views/payment_view.dart';
+import '../modules/settingx/bindings/settingx_binding.dart';
+import '../modules/settingx/views/settingx_view.dart';
 
 part 'app_routes.dart';
 
@@ -20,8 +30,33 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LOGIN,
-      page: () => const LoginView(),
+      page: () => LoginView(),
       binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOTTOMBAR,
+      page: () => const BottombarView(),
+      binding: BottombarBinding(),
+    ),
+    GetPage(
+      name: _Paths.DATAX,
+      page: () => const DataxView(),
+      binding: DataxBinding(),
+    ),
+    GetPage(
+      name: _Paths.PAYMENT,
+      page: () => const PaymentView(),
+      binding: PaymentBinding(),
+    ),
+    GetPage(
+      name: _Paths.OPERASI,
+      page: () => const OperasiView(),
+      binding: OperasiBinding(),
+    ),
+    GetPage(
+      name: _Paths.SETTINGX,
+      page: () => const SettingxView(),
+      binding: SettingxBinding(),
     ),
   ];
 }
