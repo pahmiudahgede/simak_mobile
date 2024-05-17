@@ -14,6 +14,8 @@ abstract class Routes {
   static const PAYMENT = _Paths.PAYMENT;
   static const OPERASI = _Paths.OPERASI;
   static const SETTINGX = _Paths.SETTINGX;
+  static const SETTINGXACCUNSET = _Paths.SETTINGXACCUNSET;
+  static const SETTINGXPERSONAL = _Paths.SETTINGXPERSONAL;
 }
 
 abstract class _Paths {
@@ -29,4 +31,6 @@ abstract class _Paths {
   static const PAYMENT = '/payment';
   static const OPERASI = '/operasi';
   static const SETTINGX = '/settingx';
+  static const SETTINGXACCUNSET = '/settingxaccunset';
+  static const SETTINGXPERSONAL = '/settingxpersonal';
 }

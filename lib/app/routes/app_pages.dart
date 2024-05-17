@@ -16,6 +16,8 @@ import '../modules/operasi/views/operasi_view.dart';
 import '../modules/payment/bindings/payment_binding.dart';
 import '../modules/payment/views/payment_view.dart';
 import '../modules/settingx/bindings/settingx_binding.dart';
+import '../modules/settingx/views/accuntset_view.dart';
+import '../modules/settingx/views/personaldata_view.dart';
 import '../modules/settingx/views/settingx_view.dart';
 import '../modules/datax/views/dataxpenghuni_view.dart';
 
@@ -80,6 +82,16 @@ class AppPages {
     GetPage(
       name: _Paths.SETTINGX,
       page: () => const SettingxView(),
+      binding: SettingxBinding(),
+    ),
+    GetPage(
+      name: _Paths.SETTINGXPERSONAL,
+      page: () => const PersonaldataView(),
+      binding: SettingxBinding(),
+    ),
+    GetPage(
+      name: _Paths.SETTINGXACCUNSET,
+      page: () => const AccuntsetView(),
       binding: SettingxBinding(),
     ),
   ];

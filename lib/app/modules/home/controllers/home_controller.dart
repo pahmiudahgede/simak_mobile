@@ -18,7 +18,7 @@ class HomeController extends GetxController {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(15),
         child: Column(
           children: [
             Icon(

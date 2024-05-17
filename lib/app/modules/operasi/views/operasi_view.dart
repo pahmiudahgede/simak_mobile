@@ -10,8 +10,8 @@ class OperasiView extends GetView<OperasiController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('OperasiView'),
-        centerTitle: true,
+        title: const Text('Operasional Kos'),
+        centerTitle: false,
       ),
       body: const Center(
         child: Text(

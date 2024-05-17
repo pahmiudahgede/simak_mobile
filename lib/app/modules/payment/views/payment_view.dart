@@ -10,8 +10,8 @@ class PaymentView extends GetView<PaymentController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PaymentView'),
-        centerTitle: true,
+        title: const Text('Data Pembayaran'),
+        centerTitle: false,
       ),
       body: const Center(
         child: Text(
