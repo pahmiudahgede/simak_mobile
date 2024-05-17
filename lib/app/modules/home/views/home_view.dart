@@ -40,7 +40,7 @@ class HomeView extends GetView<HomeController> {
               width: 30,
               height: 30,
               child: Icon(
-                Icons.notification_important_sharp,
+                Icons.notifications_active,
                 color: Color.fromARGB(255, 9, 1, 255),
               ),
             ),
@@ -49,33 +49,6 @@ class HomeView extends GetView<HomeController> {
         backgroundColor: Color.fromARGB(255, 242, 4, 234),
         elevation: 0,
       ),
-
-      // bottomNavigationBar: BottomNavigationBar(
-      //   unselectedItemColor: Colors.grey,
-      //   selectedItemColor: Colors.amberAccent,
-      //   onTap: controller.ChangeTabIndex,
-      //   currentIndex: controller.tabIndex,
-      //   showSelectedLabels: true,
-      //   showUnselectedLabels: true,
-      //   items: [
-      //     _bottomNavigationBar(
-      //       ikon: Icons.question_mark,
-      //       label: 'page1',
-      //     ),
-      //     _bottomNavigationBar(
-      //       ikon: Icons.question_mark,
-      //       label: 'page2',
-      //     ),
-      //     _bottomNavigationBar(
-      //       ikon: Icons.question_mark,
-      //       label: 'page3',
-      //     ),
-      //     _bottomNavigationBar(
-      //       ikon: Icons.question_mark,
-      //       label: 'page4',
-      //     ),
-      //   ],
-      // ),
       body: Stack(
         children: [
           Container(
@@ -121,7 +94,6 @@ class HomeView extends GetView<HomeController> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                // Image.asset("assets/logo/simpati.png"),
                                 Icon(
                                   Icons.more_horiz,
                                   color: Colors.white,
@@ -169,49 +141,76 @@ class HomeView extends GetView<HomeController> {
                 ),
                 Expanded(
                   child: Container(
-                    // color: Colors.purple,
                     child: Column(
                       children: [
                         Expanded(
                           child: ListView(
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Dashboard(
-                                    objicon:
-                                        Icons.supervised_user_circle_rounded,
-                                    iconcaption: "penghuni",
-                                  ),
-                                  Dashboard(
-                                    objicon:
-                                        Icons.supervised_user_circle_rounded,
-                                    iconcaption: "penghuni",
-                                  ),
-                                  Dashboard(
-                                    objicon:
-                                        Icons.supervised_user_circle_rounded,
-                                    iconcaption: "penghuni",
-                                  ),
-                                ],
-                              ),
                               Container(
-                                height: 20,
-                                color: Colors.red,
-                                // cuma batas
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                margin: EdgeInsets.only(
+                                  right: 30,
+                                  left: 30,
+                                ),
+                                child: Column(
                                   children: [
-                                    Text(
-                                      '-- garis pembatas --',
-                                      style: TextStyle(color: Colors.white),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        controller.HomeListIcon(
+                                          objicon: Icons
+                                              .supervised_user_circle_rounded,
+                                          jumlahx: "20",
+                                          iconcaption: "penghuni",
+                                        ),
+                                        controller.HomeListIcon(
+                                          objicon: Icons
+                                              .supervised_user_circle_rounded,
+                                          jumlahx: "20",
+                                          iconcaption: "penghuni",
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        controller.HomeListIcon(
+                                          objicon: Icons
+                                              .supervised_user_circle_rounded,
+                                          jumlahx: "20",
+                                          iconcaption: "penghuni",
+                                        ),
+                                        controller.HomeListIcon(
+                                          objicon: Icons
+                                              .supervised_user_circle_rounded,
+                                          jumlahx: "20",
+                                          iconcaption: "penghuni",
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ),
+                              SizedBox(
+                                height: 20,
+                              ),
                               Container(
-                                margin: EdgeInsets.only(right: 20, left: 20),
+                                height: 20,
+                                color: Colors.grey[300],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  right: 20,
+                                  left: 20,
+                                  bottom: 100,
+                                ),
                                 child: Column(
                                   children: [
                                     Row(
@@ -219,12 +218,12 @@ class HomeView extends GetView<HomeController> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "Data Penghuni",
+                                          "Pengumuman",
                                           style: TextStyle(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Icon(Icons.more_horiz),
+                                        Icon(Icons.arrow_circle_right),
                                       ],
                                     ),
                                     Row(
@@ -232,21 +231,13 @@ class HomeView extends GetView<HomeController> {
                                         Column(
                                           children: [
                                             Text(
-                                              "Fahmi Kurniawan",
-                                              style: TextStyle(fontSize: 15),
-                                            ),
-                                            Text(
-                                              "Fahmi Kurniawan",
-                                              style: TextStyle(fontSize: 15),
-                                            ),
-                                            Text(
-                                              "Fahmi Kurniawan",
+                                              "Pengumuman 1",
                                               style: TextStyle(fontSize: 15),
                                             ),
                                           ],
                                         ),
                                       ],
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -261,35 +252,6 @@ class HomeView extends GetView<HomeController> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-// _bottomNavigationBar({IconData? ikon, String? label}) {
-//   return BottomNavigationBarItem(icon: Icon(ikon), label: label);
-// }
-
-class Dashboard extends StatelessWidget {
-  final String iconcaption;
-  final IconData objicon;
-  const Dashboard({required this.iconcaption, required this.objicon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.cyan,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Icon(objicon),
-            Text(iconcaption),
-          ],
-        ),
       ),
     );
   }

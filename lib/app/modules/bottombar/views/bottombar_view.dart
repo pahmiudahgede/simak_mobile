@@ -10,8 +10,8 @@ import 'package:simak/app/modules/settingx/views/settingx_view.dart';
 
 import '../controllers/bottombar_controller.dart';
 
-class BottombarView extends StatelessWidget {
-  const BottombarView({Key? key}) : super(key: key);
+class BottombarView extends GetView<BottombarController> {
+  const BottombarView({Key? key});
   @override
   Widget build(BuildContext context) {
     return GetBuilder<BottombarController>(
@@ -39,37 +39,30 @@ class BottombarView extends StatelessWidget {
             showUnselectedLabels: true,
             type: BottomNavigationBarType.fixed,
             items: [
-              _bottomNavigationBar(
+              controller.BotBar(
                 ikon: Icons.home,
                 label: 'Home',
               ),
-              _bottomNavigationBar(
-                ikon: Icons.question_mark,
+              controller.BotBar(
+                ikon: Icons.list_alt,
                 label: 'Data',
               ),
-              _bottomNavigationBar(
-                ikon: Icons.question_mark,
+              controller.BotBar(
+                ikon: Icons.wallet,
                 label: 'Payment',
               ),
-              _bottomNavigationBar(
-                ikon: Icons.question_mark,
-                label: 'Operational',
+              controller.BotBar(
+                ikon: Icons.data_exploration_outlined,
+                label: 'Operasi',
               ),
-              _bottomNavigationBar(
-                ikon: Icons.question_mark,
+              controller.BotBar(
+                ikon: Icons.settings,
                 label: 'Setting',
               ),
             ],
           ),
         );
       },
-    );
-  }
-
-  _bottomNavigationBar({IconData? ikon, String? label}) {
-    return BottomNavigationBarItem(
-      icon: Icon(ikon),
-      label: label,
     );
   }
 }

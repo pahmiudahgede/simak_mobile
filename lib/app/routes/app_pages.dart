@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:simak/app/modules/datax/views/poshkamar_view.dart';
+import 'package:simak/app/modules/datax/views/poshpenghuni_view.dart';
+import '../modules/datax/views/dataxkamar_view.dart';
 
 import '../modules/bottombar/bindings/bottombar_binding.dart';
 import '../modules/bottombar/views/bottombar_view.dart';
@@ -14,6 +17,7 @@ import '../modules/payment/bindings/payment_binding.dart';
 import '../modules/payment/views/payment_view.dart';
 import '../modules/settingx/bindings/settingx_binding.dart';
 import '../modules/settingx/views/settingx_view.dart';
+import '../modules/datax/views/dataxpenghuni_view.dart';
 
 part 'app_routes.dart';
 
@@ -41,6 +45,26 @@ class AppPages {
     GetPage(
       name: _Paths.DATAX,
       page: () => const DataxView(),
+      binding: DataxBinding(),
+    ),
+    GetPage(
+      name: _Paths.DATAXPENGHUHNI,
+      page: () => const DataxpenghuniView(),
+      binding: DataxBinding(),
+    ),
+    GetPage(
+      name: _Paths.DATAXPOSHPENGHUNI,
+      page: () => const PoshpenghuniView(),
+      binding: DataxBinding(),
+    ),
+    GetPage(
+      name: _Paths.DATAXKAMAR,
+      page: () => const DataxkamarView(),
+      binding: DataxBinding(),
+    ),
+    GetPage(
+      name: _Paths.DATAXPOSHKAMAR,
+      page: () => const PoshkamarView(),
       binding: DataxBinding(),
     ),
     GetPage(
