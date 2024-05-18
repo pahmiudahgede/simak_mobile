@@ -1,4 +1,4 @@
-# simak
+# simak (Sistem Manajemen Kos)
 
 A new Flutter project.
 

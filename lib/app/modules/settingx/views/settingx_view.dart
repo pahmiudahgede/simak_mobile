@@ -33,7 +33,7 @@ class SettingxView extends GetView<SettingxController> {
                   Get.toNamed(Routes.SETTINGXACCUNSET);
                 },
                 ikonset: Icons.settings,
-                capsset: "Pengaturan",
+                capsset: "Pengaturan Akun",
               ),
               controller.listKontenSetting(
                 pindahke: () => Get.toNamed(Routes.LOGIN),

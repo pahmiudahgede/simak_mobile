@@ -38,42 +38,22 @@ class PoshkamarView extends GetView<PoshkamarController> {
                     labelText: 'Kapasitas',
                     controller: controller.textController3,
                     ikon: Icons.storage_outlined,
-                    tipeinput: TextInputType.phone,
+                    tipeinput: TextInputType.number,
                   ),
                   SizedBox(height: 20),
                   controller.FormTextField(
                     labelText: 'Harga',
                     controller: controller.textController4,
                     ikon: Icons.price_change_outlined,
-                    tipeinput: TextInputType.streetAddress,
+                    tipeinput: TextInputType.number,
                   ),
                   SizedBox(height: 20),
                   controller.FormTextField(
                     labelText: 'Deskripsi',
                     controller: controller.textController2,
                     ikon: Icons.description,
-                    tipeinput: TextInputType.emailAddress,
+                    tipeinput: TextInputType.text,
                   ),
-                  //   SizedBox(
-                  //     height: 20,
-                  //   ),
-                  //   Obx(
-                  //     () => Container(
-                  //       height: Get.height * 0.3,
-                  //       width: Get.width,
-                  //       decoration: BoxDecoration(
-                  //         color: Colors.amber,
-                  //         borderRadius: BorderRadius.circular(20),
-                  //       ),
-                  //       child: controller.image.value.path == ''
-                  //           ? Icon(Icons.person)
-                  //           : Image.file(controller.image.value),
-                  //     ),
-                  //   ),
-                  //   ElevatedButton(
-                  //     onPressed: () => controller.pickImage(),
-                  //     child: Icon(Icons.upload_file),
-                  //   ),
                 ],
               ),
             ],

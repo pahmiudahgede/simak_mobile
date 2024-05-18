@@ -20,7 +20,7 @@ class PoshpenghuniController extends GetxController {
       Widget? ikonend,
       TextInputType? tipeinput}) {
     return TextFormField(
-      // controller: controller,
+      controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
         prefixIcon: Icon(ikon),

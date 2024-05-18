@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 // import 'package:get/get.dart';
 
 class BootScreen extends StatelessWidget {
@@ -6,19 +7,28 @@ class BootScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Color.fromARGB(255, 236, 16, 196),
+        backgroundColor: Colors.white,
         body: Center(
-          child: Text(
-            'loading ...',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, // Center vertically
+              mainAxisSize: MainAxisSize
+                  .min, // Minimize the size of Column to its children
+              children: [
+                Image.asset("assets/icon/icon_simak.png"),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "SIMAK",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+                ),
+              ],
+            ),
           ),
-          // child: Container(
-          //   width: Get.width * 0.5,
-          //   height: Get.width * 0.5,
-          // child: Image.asset("assets/logo/nama_logo.png"),
         ),
       ),
     );
