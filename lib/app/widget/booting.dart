@@ -18,7 +18,7 @@ class BootScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize
                   .min, // Minimize the size of Column to its children
               children: [
-                Image.asset("assets/icon/icon_simak.png"),
+                Image.asset('assets/icon/icon_simak.png'),
                 SizedBox(
                   height: 20,
                 ),

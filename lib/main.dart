@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     // return GetMaterialApp(
     //   debugShowCheckedModeBanner: false,
     //   title: "Application",
-    //   initialRoute: Routes.SETTINGXPERSONAL,
+    //   initialRoute: Routes.BOTTOMBAR,
     //   getPages: AppPages.routes,
     // );
     return FutureBuilder(
