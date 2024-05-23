@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../widget/utility/guide.dart';
+
 class AccuntsetController extends GetxController {
   Widget buildPasswordContainer({BuildContext? context}) {
     return Container(
@@ -98,7 +100,7 @@ class AccuntsetController extends GetxController {
           Icon(
             Icons.delete_forever_rounded,
             size: 25,
-            color: Colors.red,
+            color: Werno.merah,
           ),
           SizedBox(
             width: 15,
@@ -117,7 +119,7 @@ class AccuntsetController extends GetxController {
       padding: EdgeInsets.only(bottom: 20),
       child: Text(
         "Versi Aplikasi 1.0.0",
-        style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+        style: TextStyle(fontSize: 16, color: Werno.abujanda),
       ),
     );
   }

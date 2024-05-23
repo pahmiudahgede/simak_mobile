@@ -8,6 +8,7 @@ import 'package:simak/app/modules/payment/views/payment_view.dart';
 import 'package:simak/app/modules/settingx/views/settingx_view.dart';
 // import 'package:simak/app/modules/login/views/login_view.dart';
 
+import '../../../widget/utility/guide.dart';
 import '../controllers/bottombar_controller.dart';
 
 class BottombarView extends GetView<BottombarController> {
@@ -31,8 +32,8 @@ class BottombarView extends GetView<BottombarController> {
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            unselectedItemColor: Colors.grey,
-            selectedItemColor: Colors.amberAccent,
+            unselectedItemColor: Werno.abujanda,
+            selectedItemColor: Werno.utama,
             onTap: controller.ChangeTabIndex,
             currentIndex: controller.tabIndex,
             showSelectedLabels: true,

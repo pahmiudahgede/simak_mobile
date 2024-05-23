@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../widget/utility/guide.dart';
+
 class Payment {
   final String name;
   final String room;
@@ -129,12 +131,12 @@ class PaymentController extends GetxController {
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           decoration: BoxDecoration(
-            color: isSelected.value ? Colors.blue : Colors.grey,
+            color: isSelected.value ? Werno.utama : Werno.abujanda,
             borderRadius: BorderRadius.circular(25),
           ),
           child: Text(
             textfilter,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Werno.putih),
           ),
         ),
       );
@@ -156,7 +158,7 @@ class PaymentController extends GetxController {
               Text(
                 'Status: ${payment.isPaid ? "Lunas" : "Belum Lunas"}',
                 style: TextStyle(
-                  color: payment.isPaid ? Colors.green : Colors.red,
+                  color: payment.isPaid ? Werno.hijau : Werno.merah,
                   fontWeight: FontWeight.bold,
                 ),
               ),

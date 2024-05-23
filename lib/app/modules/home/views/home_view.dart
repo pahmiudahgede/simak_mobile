@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
+import 'package:simak/app/routes/app_pages.dart';
+import '../../../widget/utility/guide.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -17,36 +19,36 @@ class HomeView extends GetView<HomeController> {
           text: TextSpan(
             text: "Hai, ",
             style: TextStyle(
-              color: Colors.white,
-              fontSize: 18,
+              color: Werno.putih,
+              fontSize: 24,
             ),
             children: [
               TextSpan(
                 text: "Admin",
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
+                  color: Werno.putih,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
-              )
+              ),
             ],
           ),
         ),
         actions: [
           GestureDetector(
-            onTap: () {},
+            onTap: () => Get.toNamed(Routes.HOMENOTIF),
             child: Container(
               margin: EdgeInsets.only(right: 20),
               width: 30,
               height: 30,
               child: Icon(
                 Icons.notifications_active,
-                color: Color.fromARGB(255, 9, 1, 255),
+                color: Werno.putih,
               ),
             ),
           ),
         ],
-        backgroundColor: Color.fromARGB(255, 242, 4, 234),
+        backgroundColor: Werno.utama,
         elevation: 0,
       ),
       body: Stack(
@@ -57,7 +59,7 @@ class HomeView extends GetView<HomeController> {
                 bottomLeft: Radius.circular(14),
                 bottomRight: Radius.circular(14),
               ),
-              color: Color.fromARGB(255, 242, 4, 234),
+              color: Werno.utama,
             ),
             height: 100,
           ),
@@ -74,12 +76,13 @@ class HomeView extends GetView<HomeController> {
                         margin: EdgeInsets.symmetric(horizontal: 25),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xFFE52D27),
-                              Color(0xFFB31217),
-                            ],
-                          ),
+                          color: Werno.utamaPudar,
+                          // gradient: LinearGradient(
+                          //   colors: [
+                          //     Color(0xFFE52D27),
+                          //     Color(0xFFB31217),
+                          //   ],
+                          // ),
                         ),
                         child: Column(
                           children: [
@@ -89,33 +92,33 @@ class HomeView extends GetView<HomeController> {
                                 Text(
                                   "Pencarian",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Werno.hitam,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Icon(
-                                  Icons.more_horiz,
-                                  color: Colors.white,
-                                ),
+                                // Icon(
+                                //   Icons.more_horiz,
+                                //   color: Werno.hitam,
+                                // ),
                               ],
                             ),
                             SizedBox(height: 20),
                             TextField(
                               decoration: InputDecoration(
                                 hintText: 'Masukkan kata kunci pencarian',
-                                hintStyle: TextStyle(color: Colors.white70),
+                                hintStyle: TextStyle(color: Werno.hitam),
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
+                                  borderSide: BorderSide(color: Werno.hitam),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 filled: true,
-                                fillColor: Colors.white.withOpacity(0.2),
+                                fillColor: Werno.putih,
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 15),
                                 prefixIcon: Icon(
                                   Icons.search,
-                                  color: Colors.white,
+                                  color: Werno.hitam,
                                 ),
                               ),
                               style: TextStyle(color: Colors.white),
@@ -152,61 +155,54 @@ class HomeView extends GetView<HomeController> {
                                   left: 30,
                                 ),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         controller.HomeListIcon(
-                                          objicon: Icons
-                                              .supervised_user_circle_rounded,
+                                          warna: Werno.utama,
+                                          objicon: ikone.penghuni,
                                           jumlahx: "20",
-                                          iconcaption: "penghuni",
+                                          iconcaption: "Penghuni",
                                         ),
                                         controller.HomeListIcon(
-                                          objicon: Icons
-                                              .supervised_user_circle_rounded,
+                                          warna: Werno.biru,
+                                          objicon: ikone.kamar,
                                           jumlahx: "20",
-                                          iconcaption: "penghuni",
+                                          iconcaption: "Kamar",
                                         ),
                                       ],
-                                    ),
-                                    SizedBox(
-                                      height: 20,
                                     ),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         controller.HomeListIcon(
-                                          objicon: Icons
-                                              .supervised_user_circle_rounded,
+                                          warna: Werno.merah,
+                                          objicon: ikone.blmLunas,
                                           jumlahx: "20",
-                                          iconcaption: "penghuni",
+                                          iconcaption: "Lunas",
                                         ),
                                         controller.HomeListIcon(
-                                          objicon: Icons
-                                              .supervised_user_circle_rounded,
-                                          jumlahx: "20",
-                                          iconcaption: "penghuni",
+                                          warna: Werno.hijau,
+                                          objicon: ikone.lunas,
+                                          jumlahx: "0",
+                                          iconcaption: "Belum Lunas",
                                         ),
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(
-                                height: 20,
-                              ),
                               Container(
                                 height: 20,
-                                color: Colors.grey[300],
-                              ),
-                              SizedBox(
-                                height: 10,
+                                color: Werno.abuprawan,
                               ),
                               Container(
                                 margin: EdgeInsets.only(
+                                  top: 15,
                                   right: 20,
                                   left: 20,
                                   bottom: 100,
@@ -221,9 +217,13 @@ class HomeView extends GetView<HomeController> {
                                           "Pengumuman",
                                           style: TextStyle(
                                               fontSize: 20,
+                                              color: Werno.hitam,
                                               fontWeight: FontWeight.bold),
                                         ),
-                                        Icon(Icons.arrow_circle_right),
+                                        Icon(
+                                          ikone.panah,
+                                          color: Werno.hitam,
+                                        ),
                                       ],
                                     ),
                                     Row(
@@ -231,7 +231,7 @@ class HomeView extends GetView<HomeController> {
                                         Column(
                                           children: [
                                             Text(
-                                              "Pengumuman 1",
+                                              "Hari ini kami presentasi",
                                               style: TextStyle(fontSize: 15),
                                             ),
                                           ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../widget/utility/guide.dart';
+
 class DataxController extends GetxController {
   KontenData({
     IconData? starticon,
@@ -15,7 +17,7 @@ class DataxController extends GetxController {
           margin: EdgeInsets.only(bottom: 20),
           padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.amber,
+            color: Werno.utama,
             borderRadius: BorderRadius.circular(15),
           ),
           child: Row(
@@ -36,26 +38,37 @@ class DataxController extends GetxController {
                       Text(
                         "${datatitle}",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 20,
+                          color: Werno.hitam,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
                         "${datasubtitle}",
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: 15),
                       ),
                     ],
                   ),
                 ],
               ),
-              IconButton(
-                onPressed: tekan,
-                // onPressed: () => Get.offAllNamed(Routes.PAYMENT),
-                icon: Icon(
-                  buttonicon,
-                  color: Colors.white,
-                  size: 30,
-                ),
+              Stack(
+                children: [
+                  IconButton(
+                    onPressed: tekan,
+                    // onPressed: () => Get.offAllNamed(Routes.PAYMENT),
+                    icon: Icon(
+                      buttonicon,
+                      color: Werno.putih,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 55,
+                          color: Werno.hitam,
+                        ),
+                      ],
+                      size: 70,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

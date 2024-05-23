@@ -1,6 +1,9 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:simak/app/widget/utility/guide.dart';
 import '../controllers/poshkamar_controller.dart';
 
 import '../../../routes/app_pages.dart';
@@ -60,18 +63,9 @@ class PoshkamarView extends GetView<PoshkamarController> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Get.offNamed(Routes.DATAXPENGHUHNI),
-        backgroundColor: Color.fromARGB(255, 38, 193, 35),
-        label: Text(
-          "Simpan",
-          style: TextStyle(color: Colors.white),
-        ),
-        icon: Icon(
-          Icons.save,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton: TombolSimpan(() {
+        Get.back();
+      }),
     );
   }
 }

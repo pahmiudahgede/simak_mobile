@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // return GetMaterialApp(
     //   debugShowCheckedModeBanner: false,
-    //   title: "Application",
+    //   title: "Simak",
     //   initialRoute: Routes.BOTTOMBAR,
     //   getPages: AppPages.routes,
     // );
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         } else {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
-            title: "Application",
+            title: "Simak",
             initialRoute: Routes.LOGIN,
             getPages: AppPages.routes,
           );

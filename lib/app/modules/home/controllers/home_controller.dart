@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
   var tabIndex = 0;
 
   void ChangeTabIndex(int index) {
@@ -11,25 +10,40 @@ class HomeController extends GetxController {
     update();
   }
 
-  HomeListIcon({IconData? objicon, String? iconcaption, String? jumlahx}) {
+  HomeListIcon(
+      {IconData? objicon, String? iconcaption, String? jumlahx, Color? warna}) {
     return Container(
+      margin: EdgeInsets.only(bottom: 18),
       decoration: BoxDecoration(
-        color: Colors.cyan,
+        color: warna,
         borderRadius: BorderRadius.circular(5),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          children: [
-            Icon(
-              objicon,
-              size: 40,
-            ),
-            Text(
-              "${jumlahx} ${iconcaption}",
-              style: TextStyle(fontSize: 24),
-            ),
-          ],
+      child: SizedBox(
+        width: 160,
+        height: 120,
+        child: Padding(
+          padding: const EdgeInsets.all(1),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: Icon(
+                  objicon,
+                  size: 40,
+                ),
+              ),
+              SizedBox(height: 8),
+              Flexible(
+                child: Text(
+                  "${jumlahx} ${iconcaption}",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 18),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

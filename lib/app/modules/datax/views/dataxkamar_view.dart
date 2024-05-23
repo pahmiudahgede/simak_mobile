@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:simak/app/modules/datax/controllers/dataxkamar_controller.dart';
-import 'package:faker/faker.dart';
 
 import '../../../routes/app_pages.dart';
+import '../../../widget/utility/guide.dart';
 
 class DataxkamarView extends GetView<DataxkamarController> {
   const DataxkamarView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    var faker = Faker();
+    // var faker = Faker();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Data Ruang'),
-        backgroundColor: Colors.amber,
+        title: const Text('Data Kamar'),
         centerTitle: false,
       ),
       body: SafeArea(
@@ -27,24 +26,24 @@ class DataxkamarView extends GetView<DataxkamarController> {
                   child: Row(
                     children: [
                       controller.gesturTekan(
-                        isSelected: controller.leftButtonSelected,
-                        onTap: () => controller.leftButtonClicked(),
+                        isSelected: controller.allButtonSelected,
+                        onTap: () => controller.allButtonClicked(),
                         textfilter: "semua",
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       controller.gesturTekan(
-                        isSelected: controller.centerButtonSelected,
-                        onTap: () => controller.centertButtonClicked(),
+                        isSelected: controller.tersediaButtonSelected,
+                        onTap: () => controller.tersediaButtonClicked(),
                         textfilter: "tersedia",
                       ),
                       SizedBox(
                         width: 10,
                       ),
                       controller.gesturTekan(
-                        isSelected: controller.rightButtonSelected,
-                        onTap: () => controller.rightButtonClicked(),
+                        isSelected: controller.terpakaiButtonSelected,
+                        onTap: () => controller.terpakaiButtonClicked(),
                         textfilter: "terpakai",
                       ),
                     ],
@@ -62,53 +61,78 @@ class DataxkamarView extends GetView<DataxkamarController> {
                     child: Column(
                       children: [
                         Expanded(
-                          child: ListView.builder(
-                            padding: EdgeInsets.only(bottom: 100),
-                            itemCount: 20,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  Container(
-                                    // padding: EdgeInsets.all(0),
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[300],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundImage: NetworkImage(
-                                            "https://picsum.photos/id/$index/200/300"),
+                          child: Obx(() {
+                            return ListView.builder(
+                              padding: EdgeInsets.only(bottom: 100),
+                              itemCount: controller.filteredRoom.length,
+                              itemBuilder: (context, index) {
+                                final statusroom =
+                                    controller.filteredRoom[index];
+                                return Column(
+                                  children: [
+                                    Container(
+                                      // padding: EdgeInsets.all(0),
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[300],
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      title: Text(
-                                        faker.person.name(),
-                                      ),
-                                      subtitle: Text(
-                                        faker.lorem.sentence(),
-                                      ),
-                                      trailing: Wrap(
-                                        spacing: 12,
-                                        children: <Widget>[
-                                          Expanded(
-                                            child: Container(
-                                              padding: EdgeInsets.all(5),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.green,
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
-                                              child: Text('Penuh'),
-                                              // height: 70,
-                                            ),
+                                      child: ListTile(
+                                        leading: CircleAvatar(
+                                          child: Text(
+                                            statusroom.idruang[0],
                                           ),
-                                          Icon(Icons.arrow_right_rounded),
-                                        ],
+                                        ),
+                                        title: Text(
+                                          statusroom.idruang,
+                                        ),
+                                        subtitle: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Rp${statusroom.harga.toString()}',
+                                            ),
+                                            Text(
+                                              statusroom.deskripsi,
+                                            ),
+                                          ],
+                                        ),
+                                        trailing: Wrap(
+                                          spacing: 12,
+                                          children: <Widget>[
+                                            Expanded(
+                                              child: Container(
+                                                padding: EdgeInsets.all(5),
+                                                decoration: BoxDecoration(
+                                                  color: statusroom.isUsed
+                                                      ? Werno.hijau
+                                                      : Werno.merah,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: Text(
+                                                  statusroom.isUsed
+                                                      ? 'tersedia'
+                                                      : 'terpakai',
+                                                ),
+                                                // height: 70,
+                                              ),
+                                            ),
+                                            // Icon(Icons.arrow_right_rounded),
+                                          ],
+                                        ),
+                                        onTap: () {
+                                          controller.showDetailDialog(
+                                              context, statusroom);
+                                        },
                                       ),
                                     ),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
+                                  ],
+                                );
+                              },
+                            );
+                          }),
                         ),
                       ],
                     ),
@@ -119,17 +143,9 @@ class DataxkamarView extends GetView<DataxkamarController> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => Get.toNamed(Routes.DATAXPOSHKAMAR),
-        label: Text(
-          "Tambah",
-          style: TextStyle(color: Colors.white),
-        ),
-        icon: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
+      floatingActionButton: TombolTambah(() {
+        Get.toNamed(Routes.DATAXPOSHKAMAR);
+      }),
     );
   }
 }

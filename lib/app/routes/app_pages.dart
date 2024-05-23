@@ -1,14 +1,16 @@
 import 'package:get/get.dart';
-import 'package:simak/app/modules/datax/views/poshkamar_view.dart';
-import 'package:simak/app/modules/datax/views/poshpenghuni_view.dart';
-import '../modules/datax/views/dataxkamar_view.dart';
 
 import '../modules/bottombar/bindings/bottombar_binding.dart';
 import '../modules/bottombar/views/bottombar_view.dart';
 import '../modules/datax/bindings/datax_binding.dart';
 import '../modules/datax/views/datax_view.dart';
+import '../modules/datax/views/dataxkamar_view.dart';
+import '../modules/datax/views/dataxpenghuni_view.dart';
+import '../modules/datax/views/poshkamar_view.dart';
+import '../modules/datax/views/poshpenghuni_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/home/views/notifikasi_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/operasi/bindings/operasi_binding.dart';
@@ -19,7 +21,6 @@ import '../modules/settingx/bindings/settingx_binding.dart';
 import '../modules/settingx/views/accuntset_view.dart';
 import '../modules/settingx/views/personaldata_view.dart';
 import '../modules/settingx/views/settingx_view.dart';
-import '../modules/datax/views/dataxpenghuni_view.dart';
 
 part 'app_routes.dart';
 
@@ -32,6 +33,11 @@ class AppPages {
     GetPage(
       name: _Paths.HOME,
       page: () => const HomeView(),
+      binding: HomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOMENOTIF,
+      page: () => const NotifikasiView(),
       binding: HomeBinding(),
     ),
     GetPage(

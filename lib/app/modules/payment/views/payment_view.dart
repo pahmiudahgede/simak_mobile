@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../widget/utility/guide.dart';
 import '../controllers/payment_controller.dart';
 
 class PaymentView extends GetView<PaymentController> {
@@ -9,9 +10,8 @@ class PaymentView extends GetView<PaymentController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Data Pembayaran'),
-        centerTitle: false,
+      appBar: Topbar(
+        judul: "Riwayat Pembayaran",
       ),
       body: SafeArea(
         child: Container(
@@ -43,34 +43,41 @@ class PaymentView extends GetView<PaymentController> {
               Expanded(
                 child: Obx(() {
                   return ListView.builder(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(5.0),
                     itemCount: controller.filteredPayments.length,
                     itemBuilder: (context, index) {
                       final payment = controller.filteredPayments[index];
                       return Card(
                         margin: EdgeInsets.symmetric(vertical: 8.0),
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            child: Text(payment.name[0]),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          title: Text(payment.name),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('Ruang: ${payment.room}'),
-                              Text('Tanggal: ${payment.date}'),
-                            ],
-                          ),
-                          trailing: Text(
-                            payment.isPaid ? 'Lunas' : 'Belum Lunas',
-                            style: TextStyle(
-                              color: payment.isPaid ? Colors.green : Colors.red,
-                              fontWeight: FontWeight.bold,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              child: Text(payment.name[0]),
                             ),
+                            title: Text(payment.name),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Ruang: ${payment.room}'),
+                                Text('Tanggal: ${payment.date}'),
+                              ],
+                            ),
+                            trailing: Text(
+                              payment.isPaid ? 'Lunas' : 'Belum Lunas',
+                              style: TextStyle(
+                                color:
+                                    payment.isPaid ? Werno.hijau : Werno.merah,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onTap: () {
+                              controller.showDetailDialog(context, payment);
+                            },
                           ),
-                          onTap: () {
-                            controller.showDetailDialog(context, payment);
-                          },
                         ),
                       );
                     },
