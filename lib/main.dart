@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     // return GetMaterialApp(
     //   debugShowCheckedModeBanner: false,
     //   title: "Simak",
-    //   initialRoute: Routes.BOTTOMBAR,
+    //   initialRoute: Routes.LOGIN,
     //   getPages: AppPages.routes,
     // );
     return FutureBuilder(

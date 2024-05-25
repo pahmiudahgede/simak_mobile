@@ -1,4 +1,6 @@
 // import 'package:flutter/gestures.dart';
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -10,75 +12,51 @@ import '../controllers/login_controller.dart';
 class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: LoginFramework());
-  }
-}
+    final mediaSize = MediaQuery.of(context).size;
+    bool rememberUser = false;
 
-class LoginFramework extends StatefulWidget {
-  const LoginFramework({super.key});
-
-  @override
-  State<LoginFramework> createState() => _LoginFrameworkState();
-}
-
-class _LoginFrameworkState extends State<LoginFramework> {
-  // late Color = Werno.utama;
-  late Size mediaSize;
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  bool rememberUser = false;
-
-  @override
-  Widget build(BuildContext context) {
-    // Werno.utama = Theme.of(context).primaryColor;
-    mediaSize = MediaQuery.of(context).size;
-    return Container(
-      decoration: BoxDecoration(
-        color: Werno.utama,
-        //   image: DecorationImage(
-        //       image: const AssetImage("assets/images/bg.jpg"),
-        //       fit: BoxFit.cover,
-        //       colorFilter: ColorFilter.mode(
-        //           Werno.utama.withOpacity(0.2), BlendMode.dstATop)),
-      ),
-      child: Scaffold(
-        backgroundColor: Werno.utama,
-        body: Stack(children: [
-          Positioned(top: 20, child: _buildTop()),
-          Positioned(bottom: 0, child: _buildBottom()),
-        ]),
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          color: Werno.utama,
+        ),
+        child: Scaffold(
+          backgroundColor: Werno.utama,
+          body: Stack(
+            children: [
+              Positioned(top: 20, child: buildTop(mediaSize)),
+              Positioned(bottom: 0, child: buildBottom(mediaSize, rememberUser, context)),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  Widget _buildTop() {
+  Widget buildTop(Size mediaSize) {
     return SizedBox(
       width: mediaSize.width,
       child: const Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Icon(
-          //   Icons.location_on_sharp,
-          //   size: 60,
-          //   color: Werno.putih,
-          // ),
           Image(
             image: AssetImage("assets/icon/icon_simak.png"),
           ),
           Text(
             "SIMAK",
             style: TextStyle(
-                color: Werno.putih,
-                fontWeight: FontWeight.bold,
-                fontSize: 40,
-                letterSpacing: 2),
-          )
+              color: Werno.putih,
+              fontWeight: FontWeight.bold,
+              fontSize: 40,
+              letterSpacing: 2,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildBottom() {
+  Widget buildBottom(Size mediaSize, bool rememberUser, BuildContext context) {
     return SizedBox(
       width: mediaSize.width,
       child: Card(
@@ -90,13 +68,13 @@ class _LoginFrameworkState extends State<LoginFramework> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(32.0),
-          child: _buildForm(),
+          child: buildForm(rememberUser, context),
         ),
       ),
     );
   }
 
-  Widget _buildForm() {
+  Widget buildForm(bool rememberUser, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -108,24 +86,31 @@ class _LoginFrameworkState extends State<LoginFramework> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        Text("Mohon login terlebhi dahulu!",
-            style: const TextStyle(color: Colors.grey)),
+        Text(
+          "Mohon login terlebhi dahulu!",
+          style: const TextStyle(color: Colors.grey),
+        ),
         const SizedBox(height: 60),
-        Text("Email Address", style: const TextStyle(color: Colors.grey)),
-        _buildInputField(emailController),
+        Text(
+          "Username",
+          style: const TextStyle(color: Colors.grey),
+        ),
+        buildInputField(controller.txtUsername),
         const SizedBox(height: 40),
-        Text("Password", style: const TextStyle(color: Colors.grey)),
-        _buildInputField(passwordController, isPassword: true),
+        Text(
+          "Password",
+          style: const TextStyle(color: Colors.grey),
+        ),
+        buildInputField(controller.txtPassword, isPassword: true),
         const SizedBox(height: 20),
-        _buildRememberForgot(),
+        buildRememberForgot(rememberUser),
         const SizedBox(height: 20),
-        _builLoginButton(),
+        buildLoginButton(),
       ],
     );
   }
 
-  Widget _buildInputField(TextEditingController controller,
-      {isPassword = false}) {
+  Widget buildInputField(TextEditingController controller, {bool isPassword = false}) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
@@ -135,41 +120,33 @@ class _LoginFrameworkState extends State<LoginFramework> {
     );
   }
 
-  Widget _buildRememberForgot() {
+  Widget buildRememberForgot(bool rememberUser) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
             Checkbox(
-                value: rememberUser,
-                activeColor: Werno.utama,
-                onChanged: (value) {
-                  setState(() {
-                    rememberUser = value!;
-                  });
-                }),
+              value: rememberUser,
+              activeColor: Werno.utama,
+              onChanged: (value) {
+                rememberUser = value!;
+              },
+            ),
             Text("Ingat Saya", style: const TextStyle(color: Colors.grey)),
           ],
         ),
         TextButton(
           onPressed: () {},
-          child:
-              Text("Lupa Sandi?", style: const TextStyle(color: Colors.grey)),
-        )
+          child: Text("Lupa Sandi?", style: const TextStyle(color: Colors.grey)),
+        ),
       ],
     );
   }
 
-  Widget _builLoginButton() {
+  Widget buildLoginButton() {
     return ElevatedButton(
-      onPressed: ()
-          // {
-          // debugPrint("Email: ${emailController.text}");
-          // debugPrint("Password: ${passwordController.text}");
-          // }
-          =>
-          Get.offAllNamed(Routes.BOTTOMBAR),
+      onPressed: () => controller.auth(),
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
         elevation: 20,
