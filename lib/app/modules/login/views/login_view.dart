@@ -25,7 +25,9 @@ class LoginView extends GetView<LoginController> {
           body: Stack(
             children: [
               Positioned(top: 20, child: buildTop(mediaSize)),
-              Positioned(bottom: 0, child: buildBottom(mediaSize, rememberUser, context)),
+              Positioned(
+                  bottom: 0,
+                  child: buildBottom(mediaSize, rememberUser, context)),
             ],
           ),
         ),
@@ -79,7 +81,7 @@ class LoginView extends GetView<LoginController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Halo.....",
+          "Halo!",
           style: TextStyle(
             color: Werno.utama,
             fontSize: 32,
@@ -87,7 +89,7 @@ class LoginView extends GetView<LoginController> {
           ),
         ),
         Text(
-          "Mohon login terlebhi dahulu!",
+          "Mohon login terlebih dahulu!",
           style: const TextStyle(color: Colors.grey),
         ),
         const SizedBox(height: 60),
@@ -110,7 +112,8 @@ class LoginView extends GetView<LoginController> {
     );
   }
 
-  Widget buildInputField(TextEditingController controller, {bool isPassword = false}) {
+  Widget buildInputField(TextEditingController controller,
+      {bool isPassword = false}) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
@@ -138,7 +141,8 @@ class LoginView extends GetView<LoginController> {
         ),
         TextButton(
           onPressed: () {},
-          child: Text("Lupa Sandi?", style: const TextStyle(color: Colors.grey)),
+          child:
+              Text("Lupa Sandi?", style: const TextStyle(color: Colors.grey)),
         ),
       ],
     );

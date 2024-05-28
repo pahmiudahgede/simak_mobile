@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simak/app/routes/app_pages.dart';
+import '../../../data/penghuni_service.dart';
+import '../../../models/penghuni.dart';
 
 import '../../../widget/utility/guide.dart';
 
@@ -26,71 +29,71 @@ class PenghuniDes {
 }
 
 class DataxpenghuniController extends GetxController {
+  var penghuniList = <Penghuni>[].obs;
+  var isLoading = true.obs;
   var urutTurun = false.obs;
   var urutNaik = true.obs;
-  var filteredOld = <PenghuniDes>[].obs;
-
-  List<String> namaList = [
-    "Fahmi Kurniawan",
-    "Ade Putra",
-    "Budi Santoso",
-    "Citra Dewi",
-    "Dewi Ayu",
-    "Eka Saputra",
-    "Fajar Nugraha",
-    "Gita Pratiwi",
-    "Hadi Susanto",
-    "Intan Permata",
-    "Joko Widodo",
-    "Kartika Sari",
-    "Lina Marlina",
-    "Maya Sari",
-    "Nur Aisyah",
-    "Oka Saputra",
-    "Putri Melati",
-    "Rizki Fauzan",
-    "Siti Nurhaliza",
-    "Teguh Prasetyo"
-  ];
-
-  late List<PenghuniDes> penghuniOld;
 
   @override
   void onInit() {
     super.onInit();
-    penghuniOld = List<PenghuniDes>.generate(20, (index) {
-      return PenghuniDes(
-        foto: Icons.image,
-        idpenghuni: (index + 1).toString().padLeft(3, '0'),
-        nama: namaList[index],
-        deskripsi: "lorep ipsum bla bla bla...",
-        urut: index + 1,
-        nomorHp: "08123456789",
-        kamar: "A${(index + 1).toString().padLeft(4, '0')}",
-      );
-    });
-    filterOld();
+    fetchPenghunis();
+  }
+
+  void fetchPenghunis() async {
+    try {
+      isLoading(true);
+      final response = await PenghuniService().fetchPenghunis();
+      if (response.status.hasError) {
+        throw Exception(response.statusText);
+      } else {
+        List<dynamic> jsonResponse = response.body;
+        List<Penghuni> penghunis = jsonResponse
+            .map((penghuni) => Penghuni.fromJson(penghuni))
+            .toList();
+        penghuniList.value = penghunis;
+        sortPenghunis();
+      }
+    } catch (e) {
+      print('Error fetching penghunis: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  final PenghuniService _penghuniService = PenghuniService();
+
+  Future<void> deletePenghuni(int penghuniId) async {
+    try {
+      final bool success = await _penghuniService.deletePenghuni(penghuniId);
+      if (success) {
+        Get.snackbar('Success', 'Penghuni deleted successfully');
+        // Refresh data or update UI as needed
+      } else {
+        Get.snackbar('Error', 'Failed to delete penghuni');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to delete penghuni: $e');
+    }
   }
 
   void urutNaikClicked() {
     urutTurun.value = false;
     urutNaik.value = true;
-    filterOld();
+    sortPenghunis();
   }
 
   void urutTurunClicked() {
     urutTurun.value = true;
     urutNaik.value = false;
-    filterOld();
+    sortPenghunis();
   }
 
-  void filterOld() {
+  void sortPenghunis() {
     if (urutNaik.value) {
-      filteredOld.value = penghuniOld.toList()
-        ..sort((a, b) => a.urut.compareTo(b.urut));
+      penghuniList.sort((a, b) => a.nama.compareTo(b.nama));
     } else {
-      filteredOld.value = penghuniOld.toList()
-        ..sort((a, b) => b.urut.compareTo(a.urut));
+      penghuniList.sort((a, b) => b.nama.compareTo(a.nama));
     }
   }
 
@@ -117,34 +120,49 @@ class DataxpenghuniController extends GetxController {
     });
   }
 
-  void showDetailDialog(BuildContext context, PenghuniDes penghuni) {
+  void showDetailDialog(BuildContext context, Penghuni penghuni) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(penghuni.idpenghuni),
+          title: Text(penghuni.nama),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Nama: ${penghuni.nama}'),
-              Text('Deskripsi: ${penghuni.deskripsi}'),
-              Text('Nomor HP: ${penghuni.nomorHp}'),
-              Text('Kamar: ${penghuni.kamar}'),
+              Text('No Telp: ${penghuni.noTelp}'),
+              Text('Jenis Kelamin: ${penghuni.jenisKelamin}'),
+              Text('Status: ${penghuni.status}'),
+              Text('Tanggal Masuk: ${penghuni.tanggalMasuk}'),
+              Text('Tanggal Keluar: ${penghuni.tanggalKeluar}'),
+              Text('Ruang: ${penghuni.namaRuang ?? 'Belum Ditempati'}'),
             ],
           ),
           actions: <Widget>[
             TextButton(
-              child: Text("edit"),
-              onPressed: () {
-                print("edit");
-                Get.back();
+              child: Text("Hapus"),
+              onPressed: () async {
+                bool success =
+                    await _penghuniService.deletePenghuni(penghuni.id);
+
+                if (success) {
+                  print('Displaying success snackbar');
+                  Get.snackbar('Success', 'Penghuni deleted successfully');
+                  penghuniList.remove(penghuni);
+                  fetchPenghunis();
+                } else {
+                  print('Displaying error snackbar');
+                  Get.snackbar('Error', 'Failed to delete penghuni');
+                }
+
+                // Close the dialog
+                Navigator.pop(context);
               },
             ),
             TextButton(
-              child: Text("hapus"),
+              child: Text("Tutup"),
               onPressed: () {
-                print("hapus");
                 Get.back();
               },
             ),
@@ -152,22 +170,5 @@ class DataxpenghuniController extends GetxController {
         );
       },
     );
-  }
-
-  // @override
-  // void onInit() {
-  //   filterOld();
-  //   super.onInit();
-  // }
-
-  @override
-  void onReady() {
-    urutNaikClicked();
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 }
