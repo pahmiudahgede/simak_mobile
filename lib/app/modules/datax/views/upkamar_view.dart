@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:simak/app/widget/utility/guide.dart';
-import '../controllers/poshkamar_controller.dart';
-
+import '../../../data/ruang_service.dart';
+import '../../../models/ruang.dart';
+import '../controllers/upkamar_controller.dart';
+import '../controllers/dataxkamar_controller.dart';
 import '../../../routes/app_pages.dart';
 
-class PoshkamarView extends GetView<PoshkamarController> {
-  const PoshkamarView({Key? key}) : super(key: key);
+class UpkamarView extends GetView<UpkamarController> {
+  const UpkamarView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,8 +67,7 @@ class PoshkamarView extends GetView<PoshkamarController> {
         ),
       ),
       floatingActionButton: TombolSimpan(() {
-        controller.CreateRuang();
-        controller.fetchRuangFromDataxkamar();
+        controller.EditRuang();
         Get.back();
       }),
     );

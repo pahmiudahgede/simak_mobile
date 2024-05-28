@@ -6,14 +6,20 @@ class PenghuniService extends GetConnect {
     return get('http://192.168.1.3:8000/api/penghunis-mobile');
   }
 
-  Future<Response> createPenghuni(
-      Penghuni penghuni, List<int> imageBytes, String imageName) {
-    final formData = FormData({
-      'penghuni': penghuni.toJson(),
-      'image': MultipartFile(imageBytes, filename: imageName),
-    });
+  Future<Response> createPenghuni(Penghuni penghuni) {
+    final jsonData = penghuni.toJson();
+    return post('http://192.168.1.3:8000/api/penghuni', jsonData);
+  }
 
-    return post('http://192.168.1.3:8000/api/penghuni', formData);
+  Future<Response> editPenghuni(Penghuni penghuni, int penghuniId) {
+    final jsonData = penghuni.toJson();
+    return put(
+      'http://192.168.1.3:8000/api/penghuni-edit/$penghuniId',
+      jsonData,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
   }
 
   Future<bool> deletePenghuni(int penghuniId) async {

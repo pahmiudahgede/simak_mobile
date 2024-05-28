@@ -3,13 +3,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:simak/app/modules/datax/controllers/poshpenghuni_controller.dart';
+import 'package:simak/app/modules/datax/controllers/uppenghuni_controller.dart';
 import 'package:simak/app/routes/app_pages.dart';
 
 import '../../../widget/utility/guide.dart';
 
-class PoshpenghuniView extends GetView<PoshpenghuniController> {
-  const PoshpenghuniView({Key? key}) : super(key: key);
+class UppenghuniView extends GetView<UppenghuniController> {
+  const UppenghuniView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

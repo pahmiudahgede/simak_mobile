@@ -12,6 +12,8 @@ abstract class Routes {
   static const DATAXPOSHPENGHUNI = _Paths.DATAXPOSHPENGHUNI;
   static const DATAXPOSHKAMAR = _Paths.DATAXPOSHKAMAR;
   static const DATAXKAMAR = _Paths.DATAXKAMAR;
+  static const UPKAMAR = _Paths.UPKAMAR;
+  static const UPPENGHUNI = _Paths.UPPENGHUNI;
   static const PAYMENT = _Paths.PAYMENT;
   static const OPERASI = _Paths.OPERASI;
   static const SETTINGX = _Paths.SETTINGX;
@@ -30,6 +32,8 @@ abstract class _Paths {
   static const DATAXPOSHPENGHUNI = '/dataxposhpenghuni';
   static const DATAXPOSHKAMAR = '/dataxposhkamar';
   static const DATAXKAMAR = '/dataxkamar';
+  static const UPKAMAR = '/upkamar';
+  static const UPPENGHUNI = '/uppenghuni';
   static const PAYMENT = '/payment';
   static const OPERASI = '/operasi';
   static const SETTINGX = '/settingx';

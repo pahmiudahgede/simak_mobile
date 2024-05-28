@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../data/ruang_service.dart';
+import '../../../models/ruang.dart';
+import '../../../routes/app_pages.dart';
 
 import '../../../widget/utility/guide.dart';
 
@@ -18,61 +21,62 @@ class StatusRuang {
 }
 
 class DataxkamarController extends GetxController {
+  var ruangList = <Room>[].obs;
+  var isLoading = true.obs;
   var terpakaiButtonSelected = false.obs;
   var tersediaButtonSelected = false.obs;
   var allButtonSelected = true.obs;
-  var filteredRoom = <StatusRuang>[].obs;
+  var filteredRoomList = <Room>[].obs;
 
-  var statuskamar = <StatusRuang>[
-    StatusRuang(
-      idruang: "A101",
-      harga: 350000,
-      deskripsi: "deskripsi 01",
-      isUsed: true,
-    ),
-    StatusRuang(
-      idruang: "B202",
-      harga: 350000,
-      deskripsi: "deskripsi 02",
-      isUsed: true,
-    ),
-    StatusRuang(
-      idruang: "C303",
-      harga: 350000,
-      deskripsi: "deskripsi 03",
-      isUsed: false,
-    ),
-    StatusRuang(
-      idruang: "D404",
-      harga: 350000,
-      deskripsi: "deskripsi 04",
-      isUsed: true,
-    ),
-    StatusRuang(
-      idruang: "E505",
-      harga: 350000,
-      deskripsi: "deskripsi 05",
-      isUsed: false,
-    ),
-    StatusRuang(
-      idruang: "F606",
-      harga: 350000,
-      deskripsi: "deskripsi 06",
-      isUsed: true,
-    ),
-    StatusRuang(
-      idruang: "G707",
-      harga: 350000,
-      deskripsi: "deskripsi 07",
-      isUsed: true,
-    ),
-    StatusRuang(
-      idruang: "H808",
-      harga: 350000,
-      deskripsi: "deskripsi 08",
-      isUsed: false,
-    ),
-  ];
+  void fetchRuangs() async {
+    try {
+      isLoading(true);
+      final response = await RuangService().fetchRuangs();
+      if (response.status.hasError) {
+        throw Exception(response.statusText);
+      } else {
+        List<dynamic> jsonResponse = response.body;
+        List<Room> ruangs =
+            jsonResponse.map((ruang) => Room.fromJson(ruang)).toList();
+        ruangList.value = ruangs;
+        filterRoom(); // Ensure the rooms are filtered initially
+      }
+    } catch (e) {
+      print('Error fetching rooms: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  final RuangService _ruangService = RuangService();
+
+  Future<void> deleteRuang(int ruangId) async {
+    try {
+      final bool success = await _ruangService.deleteRuang(ruangId);
+      if (success) {
+        Get.snackbar('Success', 'Ruang deleted successfully');
+        // Refresh data or update UI as needed
+      } else {
+        Get.snackbar('Error', 'Failed to delete penghuni');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to delete penghuni: $e');
+    }
+  }
+
+  void filterRoom() {
+    if (allButtonSelected.value == true) {
+      filteredRoomList.value = ruangList;
+    } else if (terpakaiButtonSelected.value == true) {
+      filteredRoomList.value = ruangList
+          .where((room) => room.statusKapasitas == 'Ditempati')
+          .toList();
+    } else if (tersediaButtonSelected.value == true) {
+      filteredRoomList.value = ruangList
+          .where((room) => room.statusKapasitas != 'Ditempati')
+          .toList();
+    }
+  }
 
   void allButtonClicked() {
     terpakaiButtonSelected.value = false;
@@ -93,18 +97,6 @@ class DataxkamarController extends GetxController {
     tersediaButtonSelected.value = false;
     allButtonSelected.value = false;
     filterRoom();
-  }
-
-  void filterRoom() {
-    if (tersediaButtonSelected.value) {
-      filteredRoom.value =
-          statuskamar.where((status) => status.isUsed).toList();
-    } else if (terpakaiButtonSelected.value) {
-      filteredRoom.value =
-          statuskamar.where((status) => !status.isUsed).toList();
-    } else {
-      filteredRoom.value = statuskamar;
-    }
   }
 
   gesturTekan(
@@ -129,22 +121,27 @@ class DataxkamarController extends GetxController {
     });
   }
 
-  void showDetailDialog(BuildContext context, StatusRuang status) {
+  void showDetailDialog(BuildContext context, Room room) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(status.idruang),
+          title: Text(room.namaRuang),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Harga: Rp${status.harga}'),
-              Text('Deskripsi: ${status.deskripsi}'),
+              Text('Kapasitas: ${room.kapasitas}'),
               Text(
-                'Status: ${status.isUsed ? "tersedia" : "terpakai"}',
+                  'Penghuni: ${room.penghunis?.map((p) => p.nama).join(", ") ?? "No Penghuni"}'),
+              Text('Harga: Rp. ${room.hargaBulan}'),
+              Text('Luas: ${room.luas}'),
+              Text(
+                'Status: ${room.statusKapasitas != 'Ditempati' ? "tersedia" : "terpakai"}',
                 style: TextStyle(
-                  color: status.isUsed ? Werno.hijau : Werno.merah,
+                  color: room.statusKapasitas != 'Ditempati'
+                      ? Werno.hijau
+                      : Werno.merah,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -152,19 +149,31 @@ class DataxkamarController extends GetxController {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text("edit"),
+              child: Text("Edit"),
               onPressed: () {
-                print("edit");
-                // Navigator.of(context).pop();
-                // Get.back();
+                Get.toNamed(
+                  Routes.UPKAMAR,
+                  arguments: room,
+                );
               },
             ),
             TextButton(
-              child: Text("hapus"),
-              onPressed: () {
-                print("hapus");
-                // Navigator.of(context).pop();
-                // Get.back();
+              child: Text("Hapus"),
+              onPressed: () async {
+                bool success = await _ruangService.deleteRuang(room.id);
+
+                if (success) {
+                  print('Displaying success snackbar');
+                  Get.snackbar('Success', 'Room deleted successfully');
+                  ruangList.remove(room);
+                  fetchRuangs();
+                } else {
+                  print('Displaying error snackbar');
+                  Get.snackbar('Error', 'Failed to delete room');
+                }
+
+                // Close the dialog
+                Navigator.pop(context);
               },
             ),
           ],
@@ -175,8 +184,8 @@ class DataxkamarController extends GetxController {
 
   @override
   void onInit() {
-    filterRoom();
     super.onInit();
+    fetchRuangs();
   }
 
   @override

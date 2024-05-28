@@ -8,6 +8,8 @@ import '../modules/datax/views/dataxkamar_view.dart';
 import '../modules/datax/views/dataxpenghuni_view.dart';
 import '../modules/datax/views/poshkamar_view.dart';
 import '../modules/datax/views/poshpenghuni_view.dart';
+import '../modules/datax/views/upkamar_view.dart';
+import '../modules/datax/views/uppenghuni_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home/views/notifikasi_view.dart';
@@ -73,6 +75,16 @@ class AppPages {
     GetPage(
       name: _Paths.DATAXPOSHKAMAR,
       page: () => const PoshkamarView(),
+      binding: DataxBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPKAMAR,
+      page: () => const UpkamarView(),
+      binding: DataxBinding(),
+    ),
+    GetPage(
+      name: _Paths.UPPENGHUNI,
+      page: () => const UppenghuniView(),
       binding: DataxBinding(),
     ),
     GetPage(

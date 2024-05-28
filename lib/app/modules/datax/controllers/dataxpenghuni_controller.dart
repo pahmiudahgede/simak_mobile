@@ -141,6 +141,15 @@ class DataxpenghuniController extends GetxController {
           ),
           actions: <Widget>[
             TextButton(
+              child: Text("Edit"),
+              onPressed: () {
+                Get.toNamed(
+                  Routes.UPPENGHUNI,
+                  arguments: penghuni,
+                );
+              },
+            ),
+            TextButton(
               child: Text("Hapus"),
               onPressed: () async {
                 bool success =
@@ -158,12 +167,6 @@ class DataxpenghuniController extends GetxController {
 
                 // Close the dialog
                 Navigator.pop(context);
-              },
-            ),
-            TextButton(
-              child: Text("Tutup"),
-              onPressed: () {
-                Get.back();
               },
             ),
           ],

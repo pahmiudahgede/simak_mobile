@@ -4,6 +4,8 @@ import 'package:simak/app/modules/datax/controllers/dataxkamar_controller.dart';
 import 'package:simak/app/modules/datax/controllers/dataxpenghuni_controller.dart';
 import 'package:simak/app/modules/datax/controllers/poshkamar_controller.dart';
 import 'package:simak/app/modules/datax/controllers/poshpenghuni_controller.dart';
+import 'package:simak/app/modules/datax/controllers/upkamar_controller.dart';
+import 'package:simak/app/modules/datax/controllers/uppenghuni_controller.dart';
 
 import '../controllers/datax_controller.dart';
 
@@ -24,6 +26,12 @@ class DataxBinding extends Bindings {
     );
     Get.lazyPut<DataxController>(
       () => DataxController(),
+    );
+    Get.lazyPut<UpkamarController>(
+      () => UpkamarController(),
+    );
+    Get.lazyPut<UppenghuniController>(
+      () => UppenghuniController(),
     );
   }
 }

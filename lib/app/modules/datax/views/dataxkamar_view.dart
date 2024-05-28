@@ -22,13 +22,13 @@ class DataxkamarView extends GetView<DataxkamarController> {
             Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 30, right: 20, left: 20),
+                  margin: EdgeInsets.only(top: 20, right: 20, left: 20),
                   child: Row(
                     children: [
                       controller.gesturTekan(
                         isSelected: controller.allButtonSelected,
                         onTap: () => controller.allButtonClicked(),
-                        textfilter: "semua",
+                        textfilter: "Semua",
                       ),
                       SizedBox(
                         width: 10,
@@ -36,7 +36,7 @@ class DataxkamarView extends GetView<DataxkamarController> {
                       controller.gesturTekan(
                         isSelected: controller.tersediaButtonSelected,
                         onTap: () => controller.tersediaButtonClicked(),
-                        textfilter: "tersedia",
+                        textfilter: "Tersedia",
                       ),
                       SizedBox(
                         width: 10,
@@ -44,7 +44,7 @@ class DataxkamarView extends GetView<DataxkamarController> {
                       controller.gesturTekan(
                         isSelected: controller.terpakaiButtonSelected,
                         onTap: () => controller.terpakaiButtonClicked(),
-                        textfilter: "terpakai",
+                        textfilter: "Terpakai",
                       ),
                     ],
                   ),
@@ -64,14 +64,12 @@ class DataxkamarView extends GetView<DataxkamarController> {
                           child: Obx(() {
                             return ListView.builder(
                               padding: EdgeInsets.only(bottom: 100),
-                              itemCount: controller.filteredRoom.length,
+                              itemCount: controller.filteredRoomList.length,
                               itemBuilder: (context, index) {
-                                final statusroom =
-                                    controller.filteredRoom[index];
+                                final room = controller.filteredRoomList[index];
                                 return Column(
                                   children: [
                                     Container(
-                                      // padding: EdgeInsets.all(0),
                                       margin: EdgeInsets.only(bottom: 10),
                                       decoration: BoxDecoration(
                                         color: Colors.grey[300],
@@ -80,21 +78,23 @@ class DataxkamarView extends GetView<DataxkamarController> {
                                       child: ListTile(
                                         leading: CircleAvatar(
                                           child: Text(
-                                            statusroom.idruang[0],
+                                            room.id.toString(),
                                           ),
                                         ),
                                         title: Text(
-                                          statusroom.idruang,
+                                          room.namaRuang,
                                         ),
                                         subtitle: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Rp${statusroom.harga.toString()}',
+                                              'Rp. ${room.hargaBulan.toString()}',
                                             ),
                                             Text(
-                                              statusroom.deskripsi,
+                                              'Penghuni: ${room.penghunis?.map((p) => p.nama).join(", ") ?? "Tidak ada penghuni"}',
+                                              style: TextStyle(
+                                                  color: Colors.grey[700]),
                                             ),
                                           ],
                                         ),
@@ -105,16 +105,20 @@ class DataxkamarView extends GetView<DataxkamarController> {
                                               child: Container(
                                                 padding: EdgeInsets.all(5),
                                                 decoration: BoxDecoration(
-                                                  color: statusroom.isUsed
-                                                      ? Werno.hijau
-                                                      : Werno.merah,
+                                                  color: room.statusKapasitas ==
+                                                          'Ditempati'
+                                                      ? Werno.merah
+                                                      : Werno.hijau,
                                                   borderRadius:
                                                       BorderRadius.circular(5),
                                                 ),
                                                 child: Text(
-                                                  statusroom.isUsed
-                                                      ? 'tersedia'
-                                                      : 'terpakai',
+                                                  room.statusKapasitas ==
+                                                          'Ditempati'
+                                                      ? 'Terpakai'
+                                                      : 'Tersedia',
+                                                  style: TextStyle(
+                                                      color: Colors.white),
                                                 ),
                                                 // height: 70,
                                               ),
@@ -124,7 +128,7 @@ class DataxkamarView extends GetView<DataxkamarController> {
                                         ),
                                         onTap: () {
                                           controller.showDetailDialog(
-                                              context, statusroom);
+                                              context, room);
                                         },
                                       ),
                                     ),

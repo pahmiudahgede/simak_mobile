@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -12,7 +11,7 @@ import '../../../models/ruang.dart';
 import '../../../data/penghuni_service.dart';
 import '../../../models/penghuni.dart';
 
-class PoshpenghuniController extends GetxController {
+class UppenghuniController extends GetxController {
   var textController1 = TextEditingController();
   var textController2 = TextEditingController();
   var textController3 = TextEditingController();
@@ -20,6 +19,21 @@ class PoshpenghuniController extends GetxController {
   var textController5 = TextEditingController();
   var textController6 = TextEditingController();
   var textController7 = TextEditingController();
+
+  late Penghuni penghuni;
+
+  @override
+  void onInit() {
+    super.onInit();
+    penghuni = Get.arguments as Penghuni;
+    textController1.text = penghuni.nama;
+    textController2.text = penghuni.noTelp;
+    textController3.text = penghuni.jenisKelamin;
+    textController4.text = penghuni.status;
+    textController5.text = penghuni.tanggalMasuk;
+    textController6.text = penghuni.tanggalKeluar;
+    fetchAvailableRooms();
+  }
 
   Widget FormTextField({
     String? labelText,
@@ -63,8 +77,8 @@ class PoshpenghuniController extends GetxController {
 
   Future<void> uploadImageAndCreatePenghuni() async {
     try {
-      final penghuni = Penghuni(
-        id: 0, // Assuming 0 for new entries
+      final penghuniedit = Penghuni(
+        id: penghuni.id, // Assuming 0 for new entries
         nama: textController1.text,
         noTelp: textController2.text,
         jenisKelamin: textController3.text,
@@ -75,15 +89,13 @@ class PoshpenghuniController extends GetxController {
         idRuang: selectedRoomId.value!,
       );
 
-      final jsonData = penghuni.toJson();
-      print('JSON Data: ${jsonEncode(jsonData)}'); // Print JSON data
-
-      final response = await PenghuniService().createPenghuni(penghuni);
+      final response =
+          await PenghuniService().editPenghuni(penghuniedit, penghuni.id);
       if (response.statusCode == 201) {
-        Get.snackbar('Success', 'Penghuni created successfully');
+        Get.snackbar('Success', 'Penghuni edited successfully');
       } else {
         Get.snackbar(
-            'Error', 'Failed to create penghuni: ${response.statusText}');
+            'Error', 'Failed to edit penghuni: ${response.statusText}');
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to upload image: $e');
@@ -119,12 +131,6 @@ class PoshpenghuniController extends GetxController {
       String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
       controller.text = formattedDate;
     }
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    fetchAvailableRooms();
   }
 
   @override
