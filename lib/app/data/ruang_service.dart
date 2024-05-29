@@ -2,23 +2,24 @@ import 'package:get/get.dart';
 import '../models/ruang.dart';
 
 class RuangService extends GetConnect {
+  final baseurl = 'http://192.168.1.7:8000/api';
   Future<Response> fetchRuangs() {
-    return get('http://192.168.1.3:8000/api/ruangs-mobile');
+    return get('$baseurl/ruangs-mobile');
   }
 
   Future<Response> fetchAvailableRooms() {
-    return get('http://192.168.1.3:8000/api/ruang-tersedia');
+    return get('$baseurl/ruang-tersedia');
   }
 
   Future<Response> createRuang(Room room) {
     final jsonData = room.toJson();
-    return post('http://192.168.1.3:8000/api/ruang', jsonData);
+    return post('$baseurl/ruang', jsonData);
   }
 
   Future<Response> editRuang(Room room, int ruangId) {
     final jsonData = room.toJson();
     return put(
-      'http://192.168.1.3:8000/api/ruang-edit/$ruangId',
+      '$baseurl/ruang-edit/$ruangId',
       jsonData,
       headers: {
         'Content-Type': 'application/json',
@@ -29,7 +30,7 @@ class RuangService extends GetConnect {
   Future<bool> deleteRuang(int ruangId) async {
     try {
       final response = await delete(
-        'http://192.168.1.3:8000/api/ruang/$ruangId',
+        '$baseurl/ruang/$ruangId',
       );
       return response.statusCode == 200;
     } catch (e) {

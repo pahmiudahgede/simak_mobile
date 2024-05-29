@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 
 import 'app/routes/app_pages.dart';
 import 'app/widget/booting.dart';
+import 'package:sp_util/sp_util.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SpUtil.getInstance();
   runApp(MyApp());
 }
 
@@ -16,7 +19,7 @@ class MyApp extends StatelessWidget {
     // return GetMaterialApp(
     //   debugShowCheckedModeBanner: false,
     //   title: "Simak",
-    //   initialRoute: Routes.LOGIN,
+    //   initialRoute: Routes.BOTTOMBAR,
     //   getPages: AppPages.routes,
     // );
     return FutureBuilder(
@@ -30,7 +33,9 @@ class MyApp extends StatelessWidget {
           return GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: "Simak",
-            initialRoute: Routes.LOGIN,
+            initialRoute: (SpUtil.getBool('isLogin', defValue: false)!
+                ? Routes.BOTTOMBAR
+                : Routes.LOGIN),
             getPages: AppPages.routes,
           );
         }

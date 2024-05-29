@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sp_util/sp_util.dart';
 
+import '../../../data/login_provider.dart';
+import '../../../routes/app_pages.dart';
 import '../../../widget/utility/guide.dart';
 
 class AccuntsetController extends GetxController {
@@ -37,18 +40,19 @@ class AccuntsetController extends GetxController {
                   child: Column(
                     children: [
                       _buildPasswordField(
-                          labelText: "Password Lama", icon: Icons.security),
+                          labelText: "Password Lama", icon: Icons.security, controller: oldPasswordController),
                       SizedBox(height: 10),
                       _buildPasswordField(
-                          labelText: "Password Baru", icon: Icons.security),
+                          labelText: "Password Baru", icon: Icons.security, controller: newPasswordController),
                       SizedBox(height: 10),
                       _buildPasswordField(
                           labelText: "Konfirmasi Password Baru",
-                          icon: Icons.security),
+                          icon: Icons.security, controller: confirmPasswordController),
                       SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          // Tambahkan logika untuk mengubah password di sini
+                          // Tambahkan logika uonPressed: controller.changePassword,ntuk mengubah password di sini
+                          changePassword();
                         },
                         child: Text("Ubah Password"),
                       ),
@@ -63,9 +67,11 @@ class AccuntsetController extends GetxController {
     );
   }
 
-  Widget _buildPasswordField({String? labelText, IconData? icon}) {
+  Widget _buildPasswordField(
+      {String? labelText, IconData? icon, TextEditingController? controller}) {
     return TextField(
-      obscureText: true,
+      controller: controller,
+      obscureText: false,
       decoration: InputDecoration(
         labelText: labelText,
         prefixIcon: Icon(icon),
@@ -122,6 +128,79 @@ class AccuntsetController extends GetxController {
         style: TextStyle(fontSize: 16, color: Werno.abujanda),
       ),
     );
+  }
+
+  final TextEditingController oldPasswordController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  void changePassword() async {
+    String oldPassword = oldPasswordController.text;
+    String newPassword = newPasswordController.text;
+    String confirmPassword = confirmPasswordController.text;
+    String? token = SpUtil.getString('token');
+
+    if (oldPassword.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
+      Get.snackbar(
+        "Error",
+        "Harap isi semua field",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.amber,
+      );
+      return;
+    }
+
+    if (newPassword != confirmPassword) {
+      Get.snackbar(
+        "Error",
+        "Konfirmasi password tidak cocok",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.amber,
+      );
+      return;
+    }
+
+    var data = {
+      'old_password': oldPassword,
+      'password': newPassword,
+      'confirm_password': confirmPassword,
+    };
+
+    if (token != null) {
+      LoginProvider().changePassword(token, data).then((response) {
+        if (response.statusCode == 200) {
+          Get.snackbar(
+            "Sukses",
+            response.body['message'],
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.green,
+          );
+          Get.offAllNamed(Routes.BOTTOMBAR); // Ganti dengan route yang sesuai
+        } else {
+          print('Error: ${response.statusCode}');
+          print('Response: ${response.bodyString}');
+          Get.snackbar(
+            "Gagal",
+            response.body['message'] ?? "Gagal mengganti password",
+            backgroundColor: Colors.red,
+          );
+        }
+      }).catchError((error) {
+        print('Error: $error');
+        Get.snackbar(
+          "Gagal",
+          "Terjadi kesalahan",
+          backgroundColor: Colors.red,
+        );
+      });
+    } else {
+      Get.snackbar(
+        "Error",
+        "Token tidak ditemukan",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+      );
+    }
   }
 
   @override

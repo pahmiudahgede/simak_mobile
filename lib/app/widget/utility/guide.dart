@@ -20,6 +20,8 @@ class ikone {
   static const IconData lunas = (Icons.attach_money_sharp);
   static const IconData blmLunas = (Icons.money_off);
   static const IconData panah = (Icons.arrow_circle_right_sharp);
+  static const IconData lainX = (Icons.more_horiz);
+  static const IconData lainY = (Icons.more_vert);
   static const IconData user = (Icons.person);
   static const IconData setelan = (Icons.settings);
   static const IconData pw = (Icons.lock);

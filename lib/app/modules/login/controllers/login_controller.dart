@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sp_util/sp_util.dart';
 
 import '../../../data/login_provider.dart';
 import '../../../routes/app_pages.dart';
@@ -29,11 +30,12 @@ class LoginController extends GetxController {
       };
       LoginProvider().attempt(data).then((value) {
         if (value.statusCode == 200) {
-          // Get.snackbar(
-          //   "Berhasil",
-          //   "Anda Masuk",
-          //   backgroundColor: Colors.green
-          // );
+          var responseBody = value.body;
+          var data = responseBody['data'];
+          SpUtil.putString('id', data['id'].toString());
+          SpUtil.putString('username', data['username']);
+          SpUtil.putString('token', data['token']);
+          SpUtil.putBool('isLogin', true);
           Get.offAllNamed(Routes.BOTTOMBAR);
         } else {
           print('Error: ${value.statusCode}');

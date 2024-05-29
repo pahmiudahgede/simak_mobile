@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:sp_util/sp_util.dart';
 
 import '../../../routes/app_pages.dart';
 import '../../../widget/utility/guide.dart';
@@ -35,7 +36,10 @@ class SettingxView extends GetView<SettingxController> {
                 capsset: "Pengaturan Akun",
               ),
               controller.listKontenSetting(
-                pindahke: () => Get.toNamed(Routes.LOGIN),
+                pindahke: () {
+                  SpUtil.clear();
+                  Get.offAllNamed(Routes.LOGIN);
+                },
                 ikonset: Icons.logout_outlined,
                 capsset: "Keluar",
               ),
