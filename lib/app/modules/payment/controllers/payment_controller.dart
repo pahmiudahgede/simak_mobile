@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../data/payment_service.dart';
+import '../../../models/pembayaran.dart';
 
 import '../../../widget/utility/guide.dart';
 
@@ -23,70 +25,37 @@ class PaymentController extends GetxController {
   var leftButtonSelected = false.obs;
   var rightButtonSelected = false.obs;
   var allButtonSelected = true.obs;
-  var filteredPayments = <Payment>[].obs;
+  var isLoading = true.obs;
+  var pembayaranList = <DetailTagihan>[].obs;
+  var filteredPayments = <DetailTagihan>[].obs;
 
-  var payments = <Payment>[
-    Payment(
-      name: "Ikhwan Koto",
-      room: "A101",
-      date: "2023-05-01",
-      isPaid: true,
-    ),
-    Payment(
-      name: "Pake Arrayid",
-      room: "B202",
-      date: "2023-05-02",
-      isPaid: false,
-    ),
-    Payment(
-      name: "Ryan Kimo",
-      room: "C303",
-      date: "2023-05-03",
-      isPaid: true,
-    ),
-    Payment(
-      name: "Arif Mahran",
-      room: "D404",
-      date: "2023-05-04",
-      isPaid: false,
-    ),
-    Payment(
-      name: "Nurrahman Hado",
-      room: "E505",
-      date: "2023-05-05",
-      isPaid: true,
-    ),
-    Payment(
-      name: "Ade Nuri",
-      room: "F606",
-      date: "2023-05-06",
-      isPaid: false,
-    ),
-    Payment(
-      name: "Fitriani Chairi",
-      room: "G707",
-      date: "2023-05-07",
-      isPaid: true,
-    ),
-    Payment(
-      name: "Elsa Aprilio",
-      room: "H808",
-      date: "2023-05-08",
-      isPaid: false,
-    ),
-    Payment(
-      name: "Putri Coti",
-      room: "I909",
-      date: "2023-05-09",
-      isPaid: true,
-    ),
-    Payment(
-      name: "Saputra Enriko",
-      room: "J101",
-      date: "2023-05-10",
-      isPaid: false,
-    ),
-  ];
+  @override
+  void onInit() {
+    super.onInit();
+    fetchPembayarans();
+  }
+
+  void fetchPembayarans() async {
+    try {
+      isLoading(true);
+      final response = await PaymentService().fetchPembayarans();
+      if (response.hasError) {
+        Get.snackbar(
+            'Error', 'Failed to fetch payments: ${response.statusText}');
+      } else {
+        List<dynamic> jsonResponse = response.body;
+        List<DetailTagihan> payments = jsonResponse
+            .map((pembayaran) => DetailTagihan.fromJson(pembayaran))
+            .toList();
+        pembayaranList.value = payments;
+        filterPayments();
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Error fetching payments: $e');
+    } finally {
+      isLoading(false);
+    }
+  }
 
   void leftButtonClicked() {
     leftButtonSelected.value = true;
@@ -110,14 +79,16 @@ class PaymentController extends GetxController {
   }
 
   void filterPayments() {
-    if (leftButtonSelected.value) {
-      filteredPayments.value =
-          payments.where((payment) => payment.isPaid).toList();
+    if (allButtonSelected.value) {
+      filteredPayments.value = List.from(pembayaranList);
+    } else if (leftButtonSelected.value) {
+      filteredPayments.value = pembayaranList
+          .where((pembayaran) => pembayaran.status == 'Lunas')
+          .toList();
     } else if (rightButtonSelected.value) {
-      filteredPayments.value =
-          payments.where((payment) => !payment.isPaid).toList();
-    } else {
-      filteredPayments.value = payments; // All payments
+      filteredPayments.value = pembayaranList
+          .where((pembayaran) => pembayaran.status != 'Lunas')
+          .toList();
     }
   }
 
@@ -143,45 +114,48 @@ class PaymentController extends GetxController {
     });
   }
 
-  void showDetailDialog(BuildContext context, Payment payment) {
+  void showDetailDialog(BuildContext context, DetailTagihan payment) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(payment.name),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Ruang: ${payment.room}'),
-              Text('Tanggal: ${payment.date}'),
-              Text(
-                'Status: ${payment.isPaid ? "Lunas" : "Belum Lunas"}',
-                style: TextStyle(
-                  color: payment.isPaid ? Werno.hijau : Werno.merah,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+          content: payment.fotoBukti != null
+              ? Image.network(
+                  'http://192.168.1.3:8000/storage/pembayaran/img/' +
+                      payment.fotoBukti!)
+              : Text('Tidak ada bukti pembayaran'),
           actions: <Widget>[
             TextButton(
               child: Text("Close"),
               onPressed: () {
-                // Navigator.of(context).pop();
                 Get.back();
               },
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    payment.status == 'Lunas' ? Colors.grey : Colors.green,
+              ),
+              onPressed: payment.status == 'Lunas'
+                  ? null
+                  : () async {
+                      var response = await PaymentService()
+                          .konfirmasiPembayaran(payment.id);
+                      if (response.statusCode == 200) {
+                        Get.snackbar('Success', 'Data dilunaskan');
+                        fetchPembayarans();
+                      } else {
+                        Get.snackbar('Error',
+                            'Data tidak berhasil dilunaskan: ${response.body}');
+                      }
+                      Navigator.pop(context);
+                    },
+              child: Icon(Icons.check),
             ),
           ],
         );
       },
     );
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    filterPayments();
   }
 
   @override

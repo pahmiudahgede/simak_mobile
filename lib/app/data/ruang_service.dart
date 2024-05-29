@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import '../models/ruang.dart';
 
 class RuangService extends GetConnect {
-  final baseurl = 'http://192.168.1.7:8000/api';
+  final baseurl = 'http://192.168.1.3:8000/api';
   Future<Response> fetchRuangs() {
     return get('$baseurl/ruangs-mobile');
   }

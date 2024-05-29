@@ -55,28 +55,58 @@ class PaymentView extends GetView<PaymentController> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: ListTile(
-                            leading: CircleAvatar(
-                              child: Text(payment.name[0]),
-                            ),
-                            title: Text(payment.name),
+                            title: Text(
+                                payment.ruang?.namaRuang ?? 'Unknown Room'),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Ruang: ${payment.room}'),
-                                Text('Tanggal: ${payment.date}'),
+                                // Displaying the list of penghunis (occupants)
+                                ...?payment.ruang?.penghunis
+                                    ?.map((penghuni) => Text(penghuni.nama))
+                                    .toList(),
+                                Text(
+                                    'Tanggal: ${payment.tanggal ?? 'Unknown Date'}'),
+                                Text(
+                                    'Jumlah Tagihan: Rp. ${payment.jumlahTagihan?.toStringAsFixed(0) ?? 'Unknown Amount'}'),
                               ],
                             ),
-                            trailing: Text(
-                              payment.isPaid ? 'Lunas' : 'Belum Lunas',
-                              style: TextStyle(
-                                color:
-                                    payment.isPaid ? Werno.hijau : Werno.merah,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            trailing: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  payment.status == 'Lunas'
+                                      ? 'Lunas      '
+                                      : 'Belum Lunas',
+                                  style: TextStyle(
+                                    color: payment.status == 'Lunas'
+                                        ? Colors.green
+                                        : Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(),
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.orange,
+                                      ),
+                                      onPressed: () {
+                                        controller.showDetailDialog(
+                                            context, payment);
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.remove_red_eye),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            onTap: () {
-                              controller.showDetailDialog(context, payment);
-                            },
                           ),
                         ),
                       );

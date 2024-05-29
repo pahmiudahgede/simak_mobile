@@ -2,8 +2,8 @@ import 'package:get/get.dart';
 import '../models/penghuni.dart';
 
 class PenghuniService extends GetConnect {
-  final baseurl = 'http://192.168.1.7:8000/api';
-  
+  final baseurl = 'http://192.168.1.3:8000/api';
+
   Future<Response> fetchPenghunis() {
     return get('$baseurl/penghunis-mobile');
   }
