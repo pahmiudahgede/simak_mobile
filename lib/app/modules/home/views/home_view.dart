@@ -69,7 +69,7 @@ class HomeView extends GetView<HomeController> {
                 ),
                 SizedBox(width: 15),
                 Text(
-                  'halo, nama ${SpUtil.getString("username")}',
+                  'Halo, ${SpUtil.getString("username")} !',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.black,
@@ -100,13 +100,15 @@ class HomeView extends GetView<HomeController> {
                                 controller.HomeListIcon(
                                   warna: Werno.utama,
                                   objicon: ikone.penghuni,
-                                  jumlahx: "20",
+                                  jumlahx:
+                                      controller.penghuniList.length.toString(),
                                   iconcaption: "Penghuni",
                                 ),
                                 controller.HomeListIcon(
                                   warna: Werno.biru,
                                   objicon: ikone.kamar,
-                                  jumlahx: "20",
+                                  jumlahx:
+                                      controller.ruangList.length.toString(),
                                   iconcaption: "Kamar",
                                 ),
                               ],
@@ -115,15 +117,19 @@ class HomeView extends GetView<HomeController> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 controller.HomeListIcon(
-                                  warna: Werno.merah,
-                                  objicon: ikone.blmLunas,
-                                  jumlahx: "20",
+                                  warna: Werno.hijau,
+                                  objicon: ikone.lunas,
+                                  jumlahx: controller
+                                      .filteredPaymentslunas.length
+                                      .toString(),
                                   iconcaption: "Lunas",
                                 ),
                                 controller.HomeListIcon(
-                                  warna: Werno.hijau,
-                                  objicon: ikone.lunas,
-                                  jumlahx: "0",
+                                  warna: Werno.merah,
+                                  objicon: ikone.blmLunas,
+                                  jumlahx: controller
+                                      .filteredPaymentsblmlunas.length
+                                      .toString(),
                                   iconcaption: "Belum Lunas",
                                 ),
                               ],
